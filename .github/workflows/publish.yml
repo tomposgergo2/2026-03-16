@@ -30,7 +30,7 @@ jobs:
         docker login ghcr.io -u tomposgergo2 -p ${{ secrets.GHCR_TOKEN }}
         docker push ghcr.io/tomposgergo2/k8s-cicd-13c:$IMAGE_TAG
 
-        sed -i 's|image: ghcr.io/tomposgergo2/k8s-cicd-13c:.*|image: ghcr.io/tomposgergo2/k8s-cicd-13c:'"$IMAGE_TAG"'|'deployment.yaml
+        sed -i 's|image: ghcr.io/tomposgergo2/k8s-cicd-13c:.*|image: ghcr.io/tomposgergo2/k8s-cicd-13c:'"$IMAGE_TAG"'|' deployment.yaml
 
         git config --global user.name "tomposgergo2"
         git config --global user.email "tompos.gergo@students.jedlik.eu"

@@ -52,7 +52,7 @@ spec:
   ingressClassName: nginx 
 
   rules:
-    - host: cicd13c-tomposgergo.jcloud.jedlik.cloud
+    - host: cicd13c-tomposgergo2.jcloud.jedlik.cloud
       http:
         paths:
           - path: /

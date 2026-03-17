@@ -8,6 +8,9 @@ on:
   pull_request:
     branches: [ "master" ]
 
+permissions:
+  contents: write
+
 jobs:
 
   build:
@@ -27,7 +30,23 @@ jobs:
         docker login ghcr.io -u tomposgergo2 -p ${{ secrets.GHCR_TOKEN }}
         docker push ghcr.io/tomposgergo2/k8s-cicd-13c:$IMAGE_TAG
 
+        sed -i 's|image: ghcr.io/tomposgergo2/k8s-cicd-13c:.*|image: ghcr.io/tomposgergo2/k8s-cicd-13c:'"$IMAGE_TAG"'|'deployment.yaml
+
+        git config --global user.name "tomposgergo2"
+        git config --global user.email "tompos.gergo@students.jedlik.eu"
+        git add deployment.yaml
+        git commit "upd deployment.yaml"
+        git push
+
+        mkdir -p ~/.kube
+        echo "${{ secrets.K8S_CONFIG_BASE64}}" | base664 -d > ~/.kube/config
+        kubectl apply -f deployment.yaml
+
 #TODO:
 # - kubectl apply futtatása
 #     - config: secretbe el kell tenni: base64-ben
 # deployment.yaml-ban az image tag frissítése
+
+
+# $bytes = [System.IO.File]::ReadAllBytes("$env:USERPROFILE/.kube/config")
+# [System.Convert]::ToBase64String($bytes)
